@@ -1,0 +1,100 @@
+<!-- Tool count APIs in docs and file header for project PS4SDK code by VinhPN3 master all program language-->
+<!DOCTYPE html>
+<header>
+	<title>Inteligent Tool</title>
+</header>
+<html>
+<link href="./css/main.css" rel="stylesheet" type="text/css">
+ <script src="./libs/angular.min.js"></script>
+ <script src="./libs/jquery-1.11.3.min.js"></script>
+ <script src="./libs/lodash.js"></script>
+ <script src="./libs/moment.min.js"></script>
+ <script src="./controllers/index.controller.js"></script>
+ <script src="./services/readfile.service.js"></script>
+ <script src="./filters/fmDate.js"></script>
+ <script src="./filters/fmSize.js"></script>
+ <script src="./filters/fmFileName.js"></script>
+ <script src="./filters/fmNameAPIs.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl" class="inteligent-face">
+
+<div style="margin-top:50px" ng-show="isCheckPass">
+<label>PassWord:</label>
+<input class="text-input" placeholder="Enter a password..." ng-model ="password" />
+<button  class="btn-go success" type="button" ng-click="go()">Go</button><br/>
+<i style="color:red">Please enter a password then click button Go to connect page!</i>
+</div>
+
+<div ng-show="!isCheckPass" ng-if="!isView">
+<div>
+	<h1>Inteligent Tool</h1>
+	<p style="color:red; margin-top: -16px;"><i>(Tool count APIs in file .h and file .html code by VinhPN)</i></p>
+</div>
+
+<div style="margin-top:15px; color:red;" ng-if="validates.length > 0">
+<label style="font-size: 20px;">Please enter data for the following fields:</label>
+<div ng-repeat="val in validates" style="margin-top: 5px;">
+	<span style="margin-left: 35px;">-&nbsp;{{val.field}}</span>: <span >{{val.note}}</span>
+</div>
+</div>
+
+<div style="margin-top:50px">
+<label>Search API:<span style="color:red">*</span></label>
+<input class="text-input" placeholder="Enter a keyword..." ng-model ="textQuery" />
+</div>
+<div  style="margin-top:15px">
+<label>Select File(s) need count APIs <span style="color:red">*</span></label>
+  <input type="file" id="file" name="file" multiple="true" accept=".h,.html" onchange="angular.element(this).scope().setFiles(this)" />
+</div>
+<div ng-show="files.length" style="margin-top:10px">
+	<table style="width:50%">
+	  <tr style="background: #106cc8;color: #ffffff;font-size: 15px;font-family: inherit;">
+		<th style="width: 30px; text-align: center;">No.</th>
+		<th style="text-align: left;">Name</th>
+		<th style="width: 50px; text-align: right;">Type</th> 
+		<th style="width: 90px; text-align: right;">Size</th>
+		<th style="width: 96px; text-align: right;">Modifie Date</th>
+	  </tr>
+	  <tr ng-repeat="item in files">
+		<td style="text-align: center;">{{$index + 1}}</td>
+		<td>{{item.name | fomatFileName}}</td>
+		<td style="text-align: right;">{{item.type}}</td>
+		<td style="text-align: right;">{{item.size | fomatSize:"MB"}}</td>
+		<td style="text-align: right;">{{item.lastModifiedDate | fomatDate: "DD/MM/YYYY"}}</td>
+	  </tr>
+	</table>
+</div>
+<div style="margin-top:15px">
+  <button class="btn success" type="button" ng-click="countAPIs()">Count API</button>
+</div>
+
+<div ng-show="apis.length" style="margin-top:10px">
+	<table style="width:50%">
+	  <tr style="background: #106cc8;color: #ffffff;font-size: 15px;font-family: inherit;">
+		<th style="width: 30px; text-align: center;">No.</th>
+		<th style="text-align: left;">Name</th>
+		<th style="width: 50px; text-align: right;">Result</th> 
+		<th style="width: 50px; text-align: left;">APIs Name</th> 
+	  </tr>
+	  <tr ng-repeat-start="api in apis">
+		<td style="text-align: center;">{{$index + 1}}</td>
+		<td>{{api.name | fomatFileName}}</td>
+		<td style="text-align: right;">{{api.num}}</td>
+		<td  style="width: 100%; text-align: left;">
+		<p ng-repeat="text in api.contents">{{text}}</p>
+		</td>
+	  </tr>
+	  <tr ng-repeat-end>
+		<th colspan="2" style="text-align: right;">Total APIs</th>
+		<td style="text-align: right;">{{getTotalAPIs(apis, 'num')}}</td> 
+		<td style="width: 100%; text-align: left;">
+		<p ng-repeat="text in total">{{text}}</p>
+		</td> 
+	  </tr>
+	</table>
+</div>
+</div> 
+</div>                				
+</body>
+</html>
